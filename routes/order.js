@@ -8,6 +8,7 @@ let $ = require('jquery');
 const request = require('request');
 const moment = require('moment');
 
+// SỬA: Thêm 2 thư viện này lên đầu để quản lý tập trung
 const querystring = require('qs');
 const crypto = require("crypto");
 
@@ -39,7 +40,7 @@ router.post('/create_payment_url', function (req, res, next) {
     let date = new Date();
     let createDate = moment(date).format('YYYYMMDDHHmmss');
     
-    // SỬA LỖI IP: Lấy IP đầu tiên từ chuỗi proxy
+    // SỬA LỖI 1 (IP): Lấy IP đầu tiên từ chuỗi proxy
     let ipAddrRaw = req.headers['x-forwarded-for'] ||
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
@@ -55,12 +56,12 @@ router.post('/create_payment_url', function (req, res, next) {
     
     let orderId = req.body.orderId;
     
-    // SỬA LỖI TXNREF: Xóa dấu gạch ngang '-'
+    // SỬA LỖI 2 (TXNREF): Xóa dấu gạch ngang '-'
     let cleanOrderId = orderId.replace(/-/g, '');
     
     let amount = req.body.amount;
     
-    // SỬA LỖI ORDERINFO: Tạo chuỗi sạch, không dấu, không cách
+    // SỬA LỖI 3 (ORDERINFO): Tạo chuỗi sạch, không dấu, không cách
     let orderInfo = 'ThanhToanDonHang' + cleanOrderId;
 
     let bankCode = req.body.bankCode;
@@ -84,7 +85,9 @@ router.post('/create_payment_url', function (req, res, next) {
         vnp_Params['vnp_BankCode'] = bankCode;
     }
 
-    // SỬA LỖI BẢO MẬT (vnp_SecureHash)
+    // ======================================================
+    // SỬA LỖI 4 (BẢO MẬT vnp_SecureHash)
+    // ======================================================
 
     // 1. Sắp xếp (dùng hàm sortObject ĐÚNG ở cuối file)
     vnp_Params = sortObject(vnp_Params);
@@ -101,8 +104,6 @@ router.post('/create_payment_url', function (req, res, next) {
     vnp_Params['vnp_SecureHash'] = signed;
 
     // 5. Tạo URL cuối cùng (BẮT BUỘC PHẢI encode)
-    // XÓA DÒNG CŨ: vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
-    // SỬA THÀNH:
     vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: true });
 
     // ======================================================
@@ -320,11 +321,7 @@ router.post('/refund', function (req, res, next) {
     
 });
 
-// ======================================================
-// SỬA LỖI HASH: Thay thế TOÀN BỘ hàm sortObject CŨ bằng hàm MỚI này
-// ======================================================
-
-/* HÀM CŨ BỊ LỖI (Gây sai chữ ký)
+/* // HÀM CŨ BỊ LỖI (Gây sai chữ ký)
 function sortObject(obj) {
 	let sorted = {};
 	let str = [];
