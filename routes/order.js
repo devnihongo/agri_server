@@ -56,7 +56,7 @@ router.post('/create_payment_url', function (req, res, next) {
     let orderId = req.body.orderId;
     let cleanOrderId = orderId.replace(/-/g, ''); // SỬA: Lấy orderId từ req.body
     let amount = req.body.amount;   // GIỮ NGUYÊN: Đã lấy đúng từ req.body
-    let orderInfo = req.body.orderInfo || ('Thanh toan cho ma GD:' + cleanOrderId); // SỬA: Lấy orderInfo từ req.body
+    let orderInfo = 'ThanhToanDonHang' + cleanOrderId;
 
     let bankCode = req.body.bankCode;
     
