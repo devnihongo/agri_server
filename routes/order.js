@@ -39,10 +39,11 @@ router.post('/create_payment_url', function (req, res, next) {
     let date = new Date();
     let createDate = moment(date).format('YYYYMMDDHHmmss');
     
-    let ipAddr = req.headers['x-forwarded-for'] ||
+    let ipAddrRaw = req.headers['x-forwarded-for'] ||
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress;
+    let ipAddr = ipAddrRaw.split(',')[0].trim();
 
     let config = require('config');
     
