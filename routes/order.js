@@ -94,15 +94,7 @@ router.post('/create_payment_url', function (req, res, next) {
     vnp_Params['vnp_SecureHash'] = signed;
     vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
 
-    // ======================================================
-    // SỬA LỖI 1: Lỗi 302 (Redirect)
-    // Xóa bỏ res.redirect và trả về JSON cho ứng dụng Flutter
-    // ======================================================
-    // res.redirect(vnpUrl) // XÓA DÒNG NÀY
-    
-    // THÊM DÒNG NÀY:
     res.status(200).json({ code: '00', message: 'success', data: vnpUrl });
-    // ======================================================
 });
 
 router.get('/vnpay_return', function (req, res, next) {
