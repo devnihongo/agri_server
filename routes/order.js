@@ -56,7 +56,7 @@ router.post('/create_payment_url', function (req, res, next) {
     let orderId = req.body.orderId;
     let cleanOrderId = orderId.replace(/-/g, ''); // SỬA: Lấy orderId từ req.body
     let amount = req.body.amount;   // GIỮ NGUYÊN: Đã lấy đúng từ req.body
-    let orderInfo = req.body.orderInfo || ('Thanh toan cho ma GD:' + orderId); // SỬA: Lấy orderInfo từ req.body
+    let orderInfo = req.body.orderInfo || ('Thanh toan cho ma GD:' + cleanOrderId); // SỬA: Lấy orderInfo từ req.body
 
     let bankCode = req.body.bankCode;
     
@@ -71,7 +71,7 @@ router.post('/create_payment_url', function (req, res, next) {
     vnp_Params['vnp_TmnCode'] = tmnCode;
     vnp_Params['vnp_Locale'] = locale;
     vnp_Params['vnp_CurrCode'] = currCode;
-    vnp_Params['vnp_TxnRef'] = orderId; // SỬA: Đã dùng orderId từ Flutter
+    vnp_Params['vnp_TxnRef'] = cleanOrderId; // SỬA: Đã dùng orderId từ Flutter
     vnp_Params['vnp_OrderInfo'] = orderInfo; // SỬA: Đã dùng orderInfo từ Flutter
     vnp_Params['vnp_OrderType'] = 'other';
     vnp_Params['vnp_Amount'] = amount * 100;
