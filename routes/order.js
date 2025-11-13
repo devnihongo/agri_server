@@ -53,10 +53,10 @@ router.post('/create_payment_url', function (req, res, next) {
     
     // SỬA LỖI 2: Lấy thông tin từ Flutter gửi lên (req.body)
     // Server PHẢI sử dụng orderId và amount từ Flutter
-    let orderId = req.body.orderId; // SỬA: Lấy orderId từ req.body
+    let orderId = req.body.orderId;
+    let cleanOrderId = orderId.replace(/-/g, ''); // SỬA: Lấy orderId từ req.body
     let amount = req.body.amount;   // GIỮ NGUYÊN: Đã lấy đúng từ req.body
     let orderInfo = req.body.orderInfo || ('Thanh toan cho ma GD:' + orderId); // SỬA: Lấy orderInfo từ req.body
-    // ======================================================
 
     let bankCode = req.body.bankCode;
     
