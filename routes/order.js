@@ -51,10 +51,8 @@ router.post('/create_payment_url', function (req, res, next) {
     let vnpUrl = config.get('vnp_Url');
     let returnUrl = config.get('vnp_ReturnUrl');
     
-    // ======================================================
     // SỬA LỖI 2: Lấy thông tin từ Flutter gửi lên (req.body)
     // Server PHẢI sử dụng orderId và amount từ Flutter
-    // ======================================================
     let orderId = req.body.orderId; // SỬA: Lấy orderId từ req.body
     let amount = req.body.amount;   // GIỮ NGUYÊN: Đã lấy đúng từ req.body
     let orderInfo = req.body.orderInfo || ('Thanh toan cho ma GD:' + orderId); // SỬA: Lấy orderInfo từ req.body
@@ -62,10 +60,10 @@ router.post('/create_payment_url', function (req, res, next) {
 
     let bankCode = req.body.bankCode;
     
-    let locale = req.body.language;
-    if(locale === null || locale === ''){
-        locale = 'vn';
-    }
+    let locale = 'vn';
+    // if(locale === null || locale === ''){
+    //     locale = 'vn';
+    // }
     let currCode = 'VND';
     let vnp_Params = {};
     vnp_Params['vnp_Version'] = '2.1.0';
