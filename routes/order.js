@@ -87,7 +87,8 @@ router.post('/create_payment_url', function (req, res, next) {
     vnp_Params['vnp_SecureHash'] = signed;
     vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
 
-    res.redirect(vnpUrl)
+    // Trả về URL dưới dạng JSON để client tự xử lý
+    res.json({ code: '00', message: 'Success', redirectUrl: vnpUrl })
 });
 
 router.get('/vnpay_return', function (req, res, next) {
