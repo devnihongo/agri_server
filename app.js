@@ -54,7 +54,7 @@ app.use(function(err, req, res, next) {
 
 // --- THÊM MỚI: Khối khởi động server ---
 // Sử dụng cổng của Render (process.env.PORT) hoặc 3000 khi chạy local
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server VNPay đang chạy tại cổng ${port}`);
 });
